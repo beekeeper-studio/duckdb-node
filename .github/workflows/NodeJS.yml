@@ -16,6 +16,17 @@ env:
   AWS_DEFAULT_REGION: us-east-1
 
 jobs:
+  create-release:
+    name: Create a release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create an empty release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          name: ${{ github.ref_name }}
+          draft: True
+          
   set-up-npm:
     name: Set up NPM
     runs-on: ubuntu-20.04
@@ -40,7 +51,8 @@ jobs:
   linux-nodejs:
     name: node.js Linux
     runs-on: ubuntu-20.04
-    needs: set-up-npm
+    # needs: set-up-npm
+    needs: create-release
     continue-on-error: ${{ matrix.node != '18' && matrix.node != '20' && matrix.node != '21' }}
     env:
       TARGET_ARCH: ${{ matrix.target_arch }}
@@ -48,7 +60,8 @@ jobs:
     strategy:
       matrix:
         # node.js current support policy to be found at https://github.com/duckdb/duckdb-node/tree/main/#Supported-Node-versions
-        node: [ '12', '14', '16', '17', '18', '19', '20', '21', '22']
+        # node: [ '12', '14', '16', '17', '18', '19', '20', '21', '22']
+        node: [ '16' ]
         target_arch: [ x64, arm64 ]
         isRelease:
           - ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main' }}
@@ -112,11 +125,22 @@ jobs:
           npm_config_yes: true
 
       - name: Node ${{ matrix.node }}
+        id: build
         shell: bash
-        run: ./scripts/node_build.sh ${{ matrix.node }}
+        run: |
+          OUTPUT=$(./scripts/node_build.sh ${{ matrix.node }})
+          echo "$OUTPUT" >> "$GITHUB_OUTPUT"
+
+      - name: Upload binaries
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          tag_name: ${{ needs.create-release.outputs.tag-name }}
+          files: ${{ steps.build.outputs.local }}
 
   osx-nodejs-arm64:
     name: node.js OSX arm64
+    if: false
     runs-on: macos-14
     needs: set-up-npm
     continue-on-error: ${{ matrix.node != '18' && matrix.node != '20' && matrix.node != '21' }}
@@ -180,6 +204,7 @@ jobs:
 
   osx-nodejs-x64:
     name: node.js OSX x64
+    if: false
     runs-on: macos-13
     needs: set-up-npm
     continue-on-error: ${{ matrix.node != '18' && matrix.node != '20' && matrix.node != '21' }}
@@ -243,6 +268,7 @@ jobs:
 
   win-nodejs:
     name: node.js Windows
+    if: false
     runs-on: windows-latest
     needs: set-up-npm
     continue-on-error: ${{ matrix.node != '18' && matrix.node != '20' && matrix.node != '21' }}

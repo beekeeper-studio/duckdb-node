@@ -30,6 +30,7 @@ jobs:
   set-up-npm:
     name: Set up NPM
     runs-on: ubuntu-20.04
+    if: false
     env:
       DUCKDB_NODE_BUILD_CACHE: 0
     steps:

@@ -114,6 +114,7 @@ jobs:
           save: ${{ ( github.ref == 'refs/heads/main' || github.repository != 'duckdb/duckdb-node' ) && ( matrix.node == '19' ) }}
 
       - name: Setup
+        if: false
         shell: bash
         run: ./scripts/node_version.sh
         env:

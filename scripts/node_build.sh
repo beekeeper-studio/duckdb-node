@@ -53,13 +53,12 @@ REMOTE_BINARY=$(./node_modules/.bin/node-pre-gyp reveal hosted_tarball --silent 
 
 # pip install awscli
 
-echo "local binary at  $LOCAL_BINARY"
-echo "remote binary at $REMOTE_BINARY"
+echo "local=$LOCAL_BINARY"
+echo "remote=$REMOTE_BINARY"
 # echo "served from      $S3_ENDPOINT_BINARY"
 
-' if [[ "$GITHUB_REF" =~ ^(refs/heads/main|refs/tags/v.+)$ ]] ; then
-  aws s3 cp $LOCAL_BINARY $S3_ENDPOINT_BINARY --acl public-read
-else
-  aws s3 cp $LOCAL_BINARY $S3_ENDPOINT_BINARY --acl public-read --dryrun
-fi
-'
+# if [[ "$GITHUB_REF" =~ ^(refs/heads/main|refs/tags/v.+)$ ]] ; then
+#  aws s3 cp $LOCAL_BINARY $S3_ENDPOINT_BINARY --acl public-read
+# else
+#  aws s3 cp $LOCAL_BINARY $S3_ENDPOINT_BINARY --acl public-read --dryrun
+# fi

@@ -2,7 +2,7 @@
   "name": "duckdb",
   "main": "./lib/duckdb.js",
   "types": "./lib/duckdb.d.ts",
-  "version": "0.0.2-dev5.0",
+  "version": "1.0.0-bks9",
   "description": "DuckDB node.js API",
   "gypfile": true,
   "dependencies": {
@@ -13,7 +13,8 @@
   "binary": {
     "module_name": "duckdb",
     "module_path": "./lib/binding/",
-    "host": "https://npm.duckdb.org/duckdb"
+    "host": "https://github.com",
+    "remote_path": "./beekeeper-studio/duckdb-node/releases/download/v{version}"
   },
   "scripts": {
     "install": "node-pre-gyp install --fallback-to-build",

@@ -3,7 +3,7 @@
 set -ex
 
 TARGET_ARCH=${TARGET_ARCH:=x64}
-echo targeting arch: $TARGET_ARCH
+# echo targeting arch: $TARGET_ARCH
 
 set +x
 source scripts/install_node.sh $1
@@ -39,7 +39,7 @@ if [[ "$TARGET_ARCH" != "arm64" ]] ; then
 else
   ARCH=$(file lib/binding/duckdb.node | tr '[:upper:]' '[:lower:]')
   if [[ "$ARCH" != *"arm"* ]] ; then
-    echo "no arch $ARCH"
+    # echo "no arch $ARCH"
     exit 1
   fi
 fi

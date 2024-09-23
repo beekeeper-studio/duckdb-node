@@ -2,7 +2,7 @@
   "name": "duckdb",
   "main": "./lib/duckdb.js",
   "types": "./lib/duckdb.d.ts",
-  "version": "1.0.0-bks18",
+  "version": "1.0.0-bks20",
   "description": "DuckDB node.js API",
   "gypfile": true,
   "dependencies": {

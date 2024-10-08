@@ -62,7 +62,7 @@ jobs:
 
       - id: setup
         run: |
-          echo "matrix=$(jq < scripts/electron-versions.json)" >> $GITHUB_OUTPUT
+          echo "matrix=$(jq -c . scripts/electron-versions.json)" >> $GITHUB_OUTPUT
       
       - name: Check
         run: |

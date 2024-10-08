@@ -302,7 +302,7 @@ jobs:
 
   win-nodejs:
     name: node.js Windows
-    runs-on: windows-latest
+    runs-on: windows-2019
     # needs: set-up-npm
     needs: create-release
     continue-on-error: ${{ matrix.node != '18' && matrix.node != '20' && matrix.node != '21' }}

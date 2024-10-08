@@ -62,8 +62,7 @@ jobs:
 
       - id: setup
         run: |
-          versions=$(jq -r '.[]' < scripts/electron-build-versions.json)
-          echo "matrix=$(jq -c '[.[] | select(.electron == ( $versions ))]' < scripts/electron-versions.json)" >> $GITHUB_OUTPUT
+          echo "matrix=$(jq < scripts/electron-versions.json)" >> $GITHUB_OUTPUT
       
       - name: Check
         run: |
